@@ -17,8 +17,11 @@
       </fieldset>
     </form>
 
-    <hr>
-
+    <div class="sorting-buttons">
+        <button class="btn btn-light mt-3" @click="sortByTitle">Sortera alfabetiskt</button>
+        <button class="btn btn-light mt-3" @click="sortByRate">Sortera efter betyg</button>
+    </div>
+    
     <legend>Filmer:</legend>
 
     <ul id="movies">
@@ -34,6 +37,11 @@
 </template>
 
 <style scoped>
+.sorting-buttons  {
+  float: right;
+  display: flex;
+  gap: 1rem;
+}
 .delete-movie-icon:hover {
   cursor: pointer;
 }
@@ -74,7 +82,7 @@
 }
 </style>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const title = ref('');
 const rating = ref('');
@@ -112,4 +120,14 @@ function getStars(rating) {
 function deleteMovie(index) {
   movieList.value.splice(index, 1);
 }
+
+function sortByTitle() {
+  movieList.value.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+function sortByRate() {
+  movieList.value.sort((a, b) => b.stars.length - a.stars.length);
+}
+
+const sortedMovies = computed(() => movieList.value.slice());
 </script>
